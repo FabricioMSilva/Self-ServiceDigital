@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://self-servicedigital.netlify.app"),
   title: "Self-ServiceDigital | Web, Android e Sistemas Sob Medida",
   description:
     "Desenvolvimento profissional de sites, apps Android e sistemas com orçamento flexível e entrega por etapas.",
