@@ -1,7 +1,7 @@
-import AdminPanel from "@/app/pages/AdminPanel";
-import PageShell from "@/app/components/PageShell";
+import PageShell from "@/app/_components/templates/PageShell";
+import AdminPanel from "@/app/_components/views/AdminPanel";
 
-export default function Admin() {
+export default function AdminPage() {
   return (
     <PageShell>
       <AdminPanel />

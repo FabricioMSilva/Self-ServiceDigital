@@ -1,11 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface OrderItem {
+  id: string;
+  label: string;
+  price: number;
+  quantity: number;
+}
+
+interface StoredOrder {
+  id: string;
+  userId: string;
+  items: OrderItem[];
+  subtotal: number;
+  tax: number;
+  total: number;
+  status: "confirmed";
+  paymentMethod: string;
+  paymentId?: string;
+  userInfo?: unknown;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface CreateOrderPayload {
+  userId?: string;
+  items?: OrderItem[];
+  subtotal?: number;
+  tax?: number;
+  total?: number;
+  paymentMethod?: string;
+  paymentId?: string;
+  userInfo?: unknown;
+}
+
 // Mock de pedidos em memória para destravar checkout e painel administrativo.
-let orders: any[] = [];
+const orders: StoredOrder[] = [];
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, items, subtotal, tax, total, paymentMethod, paymentId, userInfo } = await request.json();
+    const { userId, items, subtotal, tax, total, paymentMethod, paymentId, userInfo }: CreateOrderPayload = await request.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json(
@@ -14,15 +47,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const order = {
+    const order: StoredOrder = {
       id: `ord_${Math.random().toString(36).substr(2, 9)}`,
-      userId,
+      userId: userId ?? "guest",
       items,
-      subtotal,
-      tax,
-      total,
+      subtotal: subtotal ?? 0,
+      tax: tax ?? 0,
+      total: total ?? 0,
       status: "confirmed",
-      paymentMethod,
+      paymentMethod: paymentMethod ?? "card",
       paymentId,
       userInfo,
       createdAt: new Date(),
@@ -32,7 +65,7 @@ export async function POST(request: NextRequest) {
     orders.push(order);
 
     return NextResponse.json(order, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao criar pedido" },
       { status: 500 }
@@ -50,7 +83,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(orders);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao buscar pedidos" },
       { status: 500 }

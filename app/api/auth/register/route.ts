@@ -1,8 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
+interface RegisterUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  company: string;
+  role: "admin" | "customer";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface RegisterPayload {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+}
+
 // Base temporária em memória para prototipagem da jornada de cadastro.
-let users: any[] = [
+const users: RegisterUser[] = [
   {
     id: "1",
     name: "Admin",
@@ -22,7 +41,7 @@ const generateMockToken = (userId: string) => {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, phone } = await request.json();
+    const { name, email, password, phone }: RegisterPayload = await request.json();
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -42,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Protege a senha antes de devolver o usuário criado ao cliente.
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = {
+    const newUser: RegisterUser = {
       id: String(users.length + 1),
       name,
       email,
@@ -57,7 +76,16 @@ export async function POST(request: NextRequest) {
     users.push(newUser);
 
     const token = generateMockToken(newUser.id);
-    const { password: _, ...userWithoutPassword } = newUser;
+    const userWithoutPassword = {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      company: newUser.company,
+      role: newUser.role,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
+    };
 
     return NextResponse.json(
       {
@@ -67,7 +95,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao registrar usuário" },
       { status: 500 }

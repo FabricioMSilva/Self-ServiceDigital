@@ -1,5 +1,5 @@
-import HomeShell from "./components/HomeShell";
+import HomeShell from "@/app/_components/templates/HomeShell";
 
-export default function Home() {
+export default function HomePage() {
   return <HomeShell />;
 }

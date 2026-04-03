@@ -1,9 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
+interface LoginUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  company: string;
+  role: "admin" | "customer";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Base temporária em memória para desenvolvimento. Em produção isso precisa ser
 // substituído por banco persistente e autenticação de verdade.
-let users: any[] = [
+const users: LoginUser[] = [
   {
     id: "1",
     name: "Admin",
@@ -54,14 +66,23 @@ export async function POST(request: NextRequest) {
     }
 
     const token = generateMockToken(user.id);
-    const { password: _, ...userWithoutPassword } = user;
+    const userWithoutPassword = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      company: user.company,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
 
     return NextResponse.json({
       user: userWithoutPassword,
       token,
       message: "Login realizado com sucesso!",
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao fazer login" },
       { status: 500 }

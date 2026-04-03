@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json(mockPaymentIntent);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao criar intenção de pagamento" },
       { status: 500 }

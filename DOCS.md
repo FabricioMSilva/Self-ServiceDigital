@@ -108,15 +108,21 @@ O aplicativo estará disponível em `http://localhost:3000`
 
 ```
 app/
-├── api/                    # Rotas API
-│   ├── auth/              # Autenticação
-│   ├── orders/            # Pedidos
-│   ├── contact/           # Contato
-│   └── payments/          # Pagamentos
-├── components/            # Componentes React
-├── stores/                # Zustand stores
-├── pages/                 # Páginas
-├── types/                 # TypeScript types
+├── api/                               # Rotas API
+├── _components/
+│   ├── atoms/                         # Blocos básicos de UI
+│   ├── molecules/                     # Composições pequenas de atoms
+│   ├── organisms/                     # Seções complexas (Navbar, Footer, Catalog...)
+│   ├── templates/                     # Estruturas de página (HomeShell, PageShell)
+│   └── views/                         # Páginas de UI (LoginPage, CheckoutPage...)
+├── _features/
+│   ├── auth/                          # Estado e regras de autenticação
+│   ├── cart/                          # Estado e regras do carrinho
+│   └── quote/                         # Schema, pricing e store de orçamento
+├── _lib/                              # Infra compartilhada
+├── _pages/                            # Implementação central das páginas
+├── _routes/                           # Registry de rotas
+├── _types/                            # Tipos TypeScript
 ├── layout.tsx
 ├── page.tsx
 └── globals.css
