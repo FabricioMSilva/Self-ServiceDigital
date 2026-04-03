@@ -12,6 +12,8 @@ import PaymentPlan from "./PaymentPlan";
 import Portfolio from "./Portfolio";
 
 function renderPage(page: NavbarPage, catalogKey: number) {
+  // Mantém a landing como uma navegação interna por estado, evitando trocar de
+  // rota a cada seção visual e facilitando a experiência de orçamento.
   switch (page) {
     case "sobre":
       return <About />;
@@ -35,6 +37,8 @@ export default function HomeShell() {
   const clearDraft = useQuoteFormStore((state) => state.clearDraft);
 
   const handleNavigate = (page: NavbarPage) => {
+    // Ao voltar ao início, reiniciamos o catálogo para descartar respostas
+    // antigas e reabrir a jornada comercial pela primeira pergunta.
     if (page === "home") {
       clearDraft();
       setCatalogKey((current) => current + 1);

@@ -1,10 +1,8 @@
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import PageShell from "@/app/components/PageShell";
 
 export default function ProfilePage() {
   return (
-    <div className="bg-[#040b1f] text-white min-h-screen">
-      <Navbar />
+    <PageShell>
       <div className="max-w-2xl mx-auto px-4 py-20">
         <h1 className="text-4xl font-bold mb-2">Meu Perfil</h1>
         <p className="text-slate-400 mb-8">Gerencie suas informações pessoais e preferências.</p>
@@ -13,7 +11,6 @@ export default function ProfilePage() {
           <p className="text-slate-400">Funcionalidade em desenvolvimento...</p>
         </div>
       </div>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

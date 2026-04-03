@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Simulação de webhooks de pagamento
+// Endpoint de demonstração para testar o fluxo de webhook sem gateway real.
 export async function POST(request: NextRequest) {
   try {
     const { paymentIntentId, status } = await request.json();

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Simulação de banco de dados de mensagens
+// Mock de mensagens em memória para permitir testes do formulário e do admin.
 let messages: any[] = [];
 
 export async function POST(request: NextRequest) {
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     // Aqui você integraria com o seu serviço de email
     console.log("📧 Nova mensagem de contato:", contact);
 
-    // Simular envio de email
+    // Mantido como mock até existir integração real de email.
     const emailSent = true; // Em produção, usar nodemailer
 
     return NextResponse.json(

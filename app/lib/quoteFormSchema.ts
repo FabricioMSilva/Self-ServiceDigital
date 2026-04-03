@@ -5,7 +5,9 @@ export type QuoteOptionId =
   | "Site e App"
   | "Robo Venda Whatsapp"
   | "Robo Venda Telegram"
-  | "Aplicação Power Platform";
+  | "Aplicação Power Platform"
+  | "SaaS / Plataforma"
+  | "White Label";
 
 export interface QuoteFieldOption {
   label: string;
@@ -46,6 +48,9 @@ export interface QuoteFeaturesQuestion {
   options: QuoteFeatureOption[];
 }
 
+// Fonte central do catálogo orçável: define quais tipos de projeto existem,
+// quais blocos de funcionalidades cada um possui e quais campos aparecem na
+// etapa detalhada conforme o visitante monta o escopo.
 const siteFields: QuoteField[] = [
   {
     id: "site_name",
@@ -842,6 +847,199 @@ const powerPlatformFields: QuoteField[] = [
   },
 ];
 
+const saasFields: QuoteField[] = [
+  {
+    id: "saas_product_name",
+    label: "Nome da plataforma",
+    type: "text",
+    placeholder: "Ex: Minha Plataforma",
+    featureIds: ["identidade"],
+  },
+  {
+    id: "saas_target_niche",
+    label: "Nicho ou publico-alvo",
+    type: "text",
+    placeholder: "Ex: lojas locais, clinicas, prestadores, infoprodutores",
+    featureIds: ["identidade"],
+  },
+  {
+    id: "saas_core_problem",
+    label: "Problema principal que o SaaS vai resolver",
+    type: "textarea",
+    placeholder: "Explique a dor que a plataforma vai automatizar ou simplificar",
+    featureIds: ["produto"],
+  },
+  {
+    id: "saas_access_model",
+    label: "Modelo de acesso",
+    type: "select",
+    options: [
+      { label: "Assinatura mensal", value: "assinatura_mensal" },
+      { label: "Assinatura anual", value: "assinatura_anual" },
+      { label: "Plano unico com setup", value: "setup_mais_mensalidade" },
+      { label: "Ainda vou definir", value: "indefinido" },
+    ],
+    featureIds: ["produto"],
+  },
+  {
+    id: "saas_onboarding_flow",
+    label: "Como o cliente entra e configura a plataforma",
+    type: "textarea",
+    placeholder: "Ex: cadastro simples, conectar WhatsApp, Instagram e links de marketplace",
+    featureIds: ["onboarding"],
+  },
+  {
+    id: "saas_sales_channels",
+    label: "Canais ou plataformas que a solucao precisa integrar",
+    type: "textarea",
+    placeholder: "Ex: WhatsApp, Instagram, Mercado Livre, Shopee, links de pagamento",
+    featureIds: ["integracoes"],
+  },
+  {
+    id: "saas_bot_scope",
+    label: "O bot precisa fazer o que",
+    type: "textarea",
+    placeholder: "Ex: atender, qualificar lead, enviar link da Shopee, redirecionar para Mercado Livre",
+    featureIds: ["automacao"],
+  },
+  {
+    id: "saas_admin_panel",
+    label: "Precisa de painel administrativo interno?",
+    type: "select",
+    options: [
+      { label: "Sim", value: "sim" },
+      { label: "Nao", value: "nao" },
+      { label: "Somente basico", value: "basico" },
+    ],
+    featureIds: ["gestao"],
+  },
+  {
+    id: "saas_client_dashboard",
+    label: "O cliente precisa acompanhar o que dentro da plataforma",
+    type: "textarea",
+    placeholder: "Ex: leads recebidos, mensagens, status das integracoes, assinatura",
+    featureIds: ["gestao"],
+  },
+  {
+    id: "saas_user_roles",
+    label: "Tipos de acesso esperados",
+    type: "textarea",
+    placeholder: "Ex: admin interno, cliente, operador, suporte",
+    featureIds: ["acesso"],
+  },
+  {
+    id: "saas_billing_flow",
+    label: "Como a cobranca deve funcionar",
+    type: "textarea",
+    placeholder: "Ex: recorrencia mensal, trial, bloqueio por inadimplencia, upgrades",
+    featureIds: ["cobranca"],
+  },
+  {
+    id: "saas_reports",
+    label: "Quais indicadores o SaaS precisa mostrar",
+    type: "textarea",
+    placeholder: "Ex: clientes ativos, atendimentos, leads, conversoes, cancelamentos",
+    featureIds: ["relatorios"],
+  },
+];
+
+const whiteLabelFields: QuoteField[] = [
+  {
+    id: "wl_business_type",
+    label: "Tipo de negocio ou nicho",
+    type: "text",
+    placeholder: "Ex: loja de VR, clinica, restaurante, imobiliaria",
+    featureIds: ["nicho"],
+  },
+  {
+    id: "wl_offer_goal",
+    label: "Objetivo principal do site white label",
+    type: "select",
+    options: [
+      { label: "Presenca digital", value: "presenca" },
+      { label: "Captar contatos", value: "leads" },
+      { label: "Mostrar catalogo", value: "catalogo" },
+      { label: "Agendamento ou atendimento", value: "agendamento" },
+    ],
+    featureIds: ["estrutura"],
+  },
+  {
+    id: "wl_pages_scope",
+    label: "Quais secoes o modelo precisa ter",
+    type: "textarea",
+    placeholder: "Ex: home, sobre, servicos, galeria, depoimentos, contato",
+    featureIds: ["estrutura"],
+  },
+  {
+    id: "wl_visual_customization",
+    label: "Nivel de personalizacao visual",
+    type: "select",
+    options: [
+      { label: "Troca de cores e logo", value: "basico" },
+      { label: "Cores, fotos e textos", value: "medio" },
+      { label: "Layout mais adaptado ao cliente", value: "alto" },
+    ],
+    featureIds: ["visual"],
+  },
+  {
+    id: "wl_assets_status",
+    label: "O cliente ja possui logo, fotos e textos?",
+    type: "select",
+    options: [
+      { label: "Sim, tudo pronto", value: "sim_tudo" },
+      { label: "Tenho parte do material", value: "parcial" },
+      { label: "Nao tenho", value: "nao" },
+    ],
+    featureIds: ["visual"],
+  },
+  {
+    id: "wl_contact_channels",
+    label: "Canais de contato do cliente",
+    type: "textarea",
+    placeholder: "Ex: WhatsApp, Instagram, telefone, Google Maps",
+    featureIds: ["integracoes"],
+  },
+  {
+    id: "wl_catalog_source",
+    label: "Onde os produtos ou servicos serao mostrados",
+    type: "textarea",
+    placeholder: "Ex: pagina interna, catalogo simples, Mercado Livre, Shopee, Instagram",
+    featureIds: ["integracoes"],
+  },
+  {
+    id: "wl_conversion_elements",
+    label: "Elementos de conversao desejados",
+    type: "textarea",
+    placeholder: "Ex: botoes de WhatsApp, formulario, mapa, chamada para acao, prova social",
+    featureIds: ["conversao"],
+  },
+  {
+    id: "wl_admin_need",
+    label: "Precisa de painel para editar o conteudo?",
+    type: "select",
+    options: [
+      { label: "Nao", value: "nao" },
+      { label: "Sim, basico", value: "basico" },
+      { label: "Sim, completo", value: "completo" },
+    ],
+    featureIds: ["operacao"],
+  },
+  {
+    id: "wl_delivery_scale",
+    label: "Quantos clientes diferentes voce quer atender com esse modelo",
+    type: "number",
+    placeholder: "Ex: 10",
+    featureIds: ["operacao"],
+  },
+  {
+    id: "wl_optional_upsells",
+    label: "Quais extras voce quer oferecer como upsell",
+    type: "textarea",
+    placeholder: "Ex: chatbot, blog, SEO local, landing page, trafego pago, botao de pedido",
+    featureIds: ["upsell"],
+  },
+];
+
 const featureOptionsByType: Record<QuoteOptionId, QuoteFeatureOption[]> = {
   "Site Web": [
     { id: "menu", icon: "📑", label: "Menu", description: "Estrutura de navegacao principal" },
@@ -914,6 +1112,26 @@ const featureOptionsByType: Record<QuoteOptionId, QuoteFeatureOption[]> = {
     { id: "governanca", icon: "🛡️", label: "Governanca", description: "Seguranca, ambientes e compliance" },
     { id: "mobile", icon: "📲", label: "Uso mobile", description: "Operacao em celular e tablet" },
   ],
+  "SaaS / Plataforma": [
+    { id: "identidade", icon: "🏷️", label: "Posicionamento", description: "Nome, nicho e proposta da plataforma" },
+    { id: "produto", icon: "🧠", label: "Produto", description: "Problema central e modelo da solucao" },
+    { id: "onboarding", icon: "🚪", label: "Onboarding", description: "Entrada do cliente e configuracao inicial" },
+    { id: "integracoes", icon: "🔌", label: "Integracoes", description: "Canais externos e marketplaces" },
+    { id: "automacao", icon: "🤖", label: "Bot e automacao", description: "Fluxos automatizados da plataforma" },
+    { id: "gestao", icon: "📋", label: "Painel e gestao", description: "Acompanhamento do cliente e operacao" },
+    { id: "acesso", icon: "🔐", label: "Acesso", description: "Perfis e niveis de permissao" },
+    { id: "cobranca", icon: "💳", label: "Cobranca", description: "Assinatura, trial e recorrencia" },
+    { id: "relatorios", icon: "📈", label: "Relatorios", description: "Metricas de uso e resultado" },
+  ],
+  "White Label": [
+    { id: "nicho", icon: "🏪", label: "Nicho", description: "Segmento que o modelo vai atender" },
+    { id: "estrutura", icon: "🧱", label: "Estrutura", description: "Secoes e objetivo comercial do site" },
+    { id: "visual", icon: "🎨", label: "Visual", description: "Nivel de personalizacao de cor, logo e fotos" },
+    { id: "integracoes", icon: "🔗", label: "Integracoes", description: "Contato, mapa e canais de venda" },
+    { id: "conversao", icon: "🎯", label: "Conversao", description: "WhatsApp, formulario e chamadas para acao" },
+    { id: "operacao", icon: "🛠️", label: "Operacao", description: "Escala de entrega e manutencao do modelo" },
+    { id: "upsell", icon: "📦", label: "Upsells", description: "Extras comerciais que aumentam ticket" },
+  ],
 };
 
 export const quoteFormSchema = {
@@ -926,6 +1144,8 @@ export const quoteFormSchema = {
     "Robo Venda Whatsapp",
     "Robo Venda Telegram",
     "Aplicação Power Platform",
+    "SaaS / Plataforma",
+    "White Label",
   ] as QuoteOptionId[],
   forms: {
     "Aplicação Android": {
@@ -963,6 +1183,16 @@ export const quoteFormSchema = {
       description: "Preencha as informacoes principais da solucao Power Platform.",
       fields: powerPlatformFields,
     },
+    "SaaS / Plataforma": {
+      title: "Orcamento de SaaS / Plataforma",
+      description: "Preencha as informacoes principais da plataforma com recorrencia e operacao SaaS.",
+      fields: saasFields,
+    },
+    "White Label": {
+      title: "Orcamento de White Label",
+      description: "Preencha as informacoes do modelo base e do nivel de personalizacao esperado.",
+      fields: whiteLabelFields,
+    },
   } satisfies Record<QuoteOptionId, QuoteFormDefinition>,
 } as const;
 
@@ -985,6 +1215,8 @@ export function getDetailFields(
     return fields;
   }
 
+  // Filtra a última etapa para mostrar apenas perguntas ligadas às features
+  // escolhidas, reduzindo atrito e deixando o orçamento mais objetivo.
   const filteredFields = fields.filter((field) =>
     field.featureIds?.some((featureId) => selectedFeatures.includes(featureId)),
   );
@@ -1004,6 +1236,8 @@ export function buildFollowUpQuestion(
   type: QuoteOptionId,
   answers: Record<string, string>,
 ): QuoteFollowUpQuestion {
+  // Personaliza a pergunta de prioridade da fase 1 com base no tipo de projeto
+  // para a proposta sair mais próxima do que o cliente quer ver primeiro.
   switch (type) {
     case "Site Web":
       return {
@@ -1087,6 +1321,30 @@ export function buildFollowUpQuestion(
           "Aplicativo interno",
           "Dashboard e indicadores",
           "Integracao com Microsoft 365",
+        ],
+      };
+    case "SaaS / Plataforma":
+      return {
+        title: "Qual frente do SaaS deve sair primeiro na fase 1?",
+        description:
+          "Defina o foco inicial para montar a primeira entrega da plataforma com mais valor.",
+        options: [
+          "Onboarding e cadastro do cliente",
+          "Bot e automacao principal",
+          "Painel do cliente",
+          "Cobranca recorrente",
+        ],
+      };
+    case "White Label":
+      return {
+        title: "Qual prioridade deve guiar esse modelo white label?",
+        description:
+          "Escolha a frente principal para criar um template mais facil de vender e replicar.",
+        options: [
+          "Estrutura base do site",
+          "Personalizacao visual rapida",
+          "Conversao por WhatsApp e formulario",
+          "Escala para varios clientes",
         ],
       };
     default:

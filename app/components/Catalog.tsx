@@ -48,6 +48,16 @@ const developmentOptions = [
     icon: "⚙️",
     description: "Fluxos, apps e automacoes com Power Platform",
   },
+  {
+    id: "SaaS / Plataforma",
+    icon: "☁️",
+    description: "Plataforma com assinatura, onboarding e operacao recorrente",
+  },
+  {
+    id: "White Label",
+    icon: "🎯",
+    description: "Site base reutilizavel para nichos com personalizacao rapida",
+  },
 ] as const satisfies ReadonlyArray<{
   id: QuoteOptionId;
   icon: string;

@@ -47,6 +47,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Define a fundação global da aplicação: SEO/social, fontes do projeto e
+  // a infraestrutura de estilos necessária para SSR + hidratação consistente.
   return (
     <html
       lang="pt-BR"

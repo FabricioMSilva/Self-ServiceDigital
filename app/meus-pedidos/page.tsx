@@ -1,11 +1,8 @@
-import ContactForm from "@/app/components/ContactForm";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import PageShell from "@/app/components/PageShell";
 
 export default function MessagesPage() {
   return (
-    <div className="bg-[#040b1f] text-white min-h-screen">
-      <Navbar />
+    <PageShell>
       <div className="max-w-2xl mx-auto px-4 py-20">
         <h1 className="text-4xl font-bold mb-2">Meus Pedidos</h1>
         <p className="text-slate-400 mb-8">Aqui você pode acompanhar todos os seus pedidos.</p>
@@ -14,7 +11,6 @@ export default function MessagesPage() {
           <p className="text-slate-400">Funcionalidade em desenvolvimento...</p>
         </div>
       </div>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

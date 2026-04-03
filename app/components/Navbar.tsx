@@ -68,6 +68,8 @@ export default function Navbar({ activePage = "home", onNavigate }: NavbarProps)
               $isActive={activePage === item.id}
               onClick={(event) => {
                 event.preventDefault();
+                // Na home navegamos por estado interno; nas demais páginas o
+                // href continua servindo como fallback seguro para "/".
                 onNavigate?.(item.id);
                 setIsMobileMenuOpen(false);
               }}
@@ -91,21 +93,21 @@ export default function Navbar({ activePage = "home", onNavigate }: NavbarProps)
         </MobileMenuButton>
       </NavWrapper>
 
-        <MobileMenuContainer $isOpen={isMobileMenuOpen} id="mobile-menu">
-          <MobileMenuContent>
-            {navItems.map((item) => (
-              <MobileNavLink
-                key={item.id}
-                href="/"
-                $isActive={activePage === item.id}
-                onClick={(event) => {
-                  event.preventDefault();
-                  onNavigate?.(item.id);
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                <span aria-hidden="true">{item.icon}</span>
-                <span>{item.label}</span>
+      <MobileMenuContainer $isOpen={isMobileMenuOpen} id="mobile-menu">
+        <MobileMenuContent>
+          {navItems.map((item) => (
+            <MobileNavLink
+              key={item.id}
+              href="/"
+              $isActive={activePage === item.id}
+              onClick={(event) => {
+                event.preventDefault();
+                onNavigate?.(item.id);
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              <span aria-hidden="true">{item.icon}</span>
+              <span>{item.label}</span>
             </MobileNavLink>
           ))}
         </MobileMenuContent>

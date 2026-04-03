@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Simulação de pagamento - em produção usar Stripe SDK real
+    // Mock de payment intent para permitir o fluxo de checkout sem cobrança real.
     const mockPaymentIntent = {
       id: `pi_${Math.random().toString(36).substr(2, 9)}`,
       amount: Math.round(amount * 100), // em centavos

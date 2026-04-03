@@ -12,6 +12,9 @@ export interface QuoteEstimate {
   total: number;
 }
 
+// Traduz respostas abertas e escolhas do catálogo em uma referência comercial
+// inicial. O cálculo é propositalmente heurístico para apoiar a conversa
+// comercial, não para substituir levantamento detalhado de requisitos.
 function toCurrency(value: number) {
   return Math.max(0, Math.round(value));
 }
@@ -529,11 +532,177 @@ function powerPlatformEstimate(
   };
 }
 
+function saasEstimate(
+  answers: Record<string, string>,
+  secondQuestionAnswer: string | null,
+): QuoteEstimate {
+  const accessModel = answers.saas_access_model;
+  const adminPanel = answers.saas_admin_panel;
+
+  const accessMap: Record<string, number> = {
+    assinatura_mensal: 220,
+    assinatura_anual: 200,
+    setup_mais_mensalidade: 240,
+    indefinido: 180,
+  };
+
+  const items: QuoteEstimateItem[] = [
+    { label: "Arquitetura inicial do SaaS", amount: 320 },
+    { label: "Base da plataforma multi-cliente", amount: 980 },
+    {
+      label: "Modelo comercial e recorrencia",
+      amount: accessMap[accessModel] ?? 180,
+    },
+  ];
+
+  if (hasValue(answers.saas_onboarding_flow)) {
+    items.push({ label: "Onboarding e configuracao inicial do cliente", amount: 240 });
+  }
+
+  if (hasValue(answers.saas_sales_channels)) {
+    items.push({ label: "Integracoes com canais externos", amount: 260 });
+  }
+
+  if (hasValue(answers.saas_bot_scope)) {
+    items.push({ label: "Bot e automacao principal", amount: 280 });
+  }
+
+  if (adminPanel === "sim") {
+    items.push({ label: "Painel administrativo interno", amount: 220 });
+  } else if (adminPanel === "basico") {
+    items.push({ label: "Painel administrativo basico", amount: 120 });
+  }
+
+  if (hasValue(answers.saas_client_dashboard)) {
+    items.push({ label: "Dashboard do cliente", amount: 170 });
+  }
+
+  if (hasValue(answers.saas_user_roles)) {
+    items.push({ label: "Perfis de acesso e permissões", amount: 130 });
+  }
+
+  if (hasValue(answers.saas_billing_flow)) {
+    items.push({ label: "Fluxo de cobranca recorrente", amount: 190 });
+  }
+
+  if (hasValue(answers.saas_reports)) {
+    items.push({ label: "Metricas e relatorios da plataforma", amount: 110 });
+  }
+
+  if (secondQuestionAnswer) {
+    items.push({
+      label: `Prioridade da fase 1: ${secondQuestionAnswer}`,
+      amount: 140,
+    });
+  }
+
+  items.push({
+    label: "Condição comercial de entrada",
+    amount: -260,
+  });
+
+  const total = items.reduce((sum, item) => sum + item.amount, 0);
+
+  return {
+    title: "Pre-orcamento de SaaS / Plataforma",
+    marketReference:
+      "Valores ilustrativos. Podemos ajustar o preco conforme a profundidade do onboarding, as integracoes externas e o nivel de automacao e recorrencia desejados.",
+    items: items.map((item) => ({ ...item, amount: toCurrency(item.amount) })),
+    total: toCurrency(total),
+  };
+}
+
+function whiteLabelEstimate(
+  answers: Record<string, string>,
+  secondQuestionAnswer: string | null,
+): QuoteEstimate {
+  const visualLevel = answers.wl_visual_customization;
+  const adminNeed = answers.wl_admin_need;
+  const deliveryScale = Math.max(parseNumber(answers.wl_delivery_scale), 1);
+
+  const visualMap: Record<string, number> = {
+    basico: 90,
+    medio: 160,
+    alto: 260,
+  };
+
+  const items: QuoteEstimateItem[] = [
+    { label: "Estrutura base do template white label", amount: 360 },
+    {
+      label: "Personalizacao visual inicial",
+      amount: visualMap[visualLevel] ?? 120,
+    },
+  ];
+
+  if (hasValue(answers.wl_pages_scope)) {
+    items.push({ label: "Secoes e conteudo comercial", amount: 140 });
+  }
+
+  if (answers.wl_assets_status === "nao") {
+    items.push({ label: "Apoio com material visual inicial", amount: 120 });
+  } else if (answers.wl_assets_status === "parcial") {
+    items.push({ label: "Ajuste de materiais existentes", amount: 60 });
+  }
+
+  if (hasValue(answers.wl_contact_channels) || hasValue(answers.wl_catalog_source)) {
+    items.push({ label: "Integracoes de contato e canais de venda", amount: 90 });
+  }
+
+  if (hasValue(answers.wl_conversion_elements)) {
+    items.push({ label: "Elementos de conversao", amount: 80 });
+  }
+
+  if (adminNeed === "basico") {
+    items.push({ label: "Painel simples para conteudo", amount: 140 });
+  } else if (adminNeed === "completo") {
+    items.push({ label: "Painel completo de operacao", amount: 240 });
+  }
+
+  if (deliveryScale > 5) {
+    items.push({
+      label: "Preparacao do modelo para escala de entrega",
+      amount: 150,
+    });
+  } else if (deliveryScale > 1) {
+    items.push({
+      label: "Ajustes para replicacao entre clientes",
+      amount: 80,
+    });
+  }
+
+  if (hasValue(answers.wl_optional_upsells)) {
+    items.push({ label: "Estrutura de upsells comerciais", amount: 90 });
+  }
+
+  if (secondQuestionAnswer) {
+    items.push({
+      label: `Prioridade da fase 1: ${secondQuestionAnswer}`,
+      amount: 70,
+    });
+  }
+
+  items.push({
+    label: "Condição comercial de entrada",
+    amount: -110,
+  });
+
+  const total = items.reduce((sum, item) => sum + item.amount, 0);
+
+  return {
+    title: "Pre-orcamento de White Label",
+    marketReference:
+      "Valores ilustrativos. Podemos ajustar o preco de acordo com o nivel de personalizacao, a quantidade de clientes que voce quer atender com o mesmo modelo e os extras comerciais desejados.",
+    items: items.map((item) => ({ ...item, amount: toCurrency(item.amount) })),
+    total: toCurrency(total),
+  };
+}
+
 export function buildQuoteEstimate(
   type: QuoteOptionId,
   answers: Record<string, string>,
   secondQuestionAnswer: string | null,
 ): QuoteEstimate {
+  // Encaminha o orçamento para a regra específica daquele tipo de solução.
   switch (type) {
     case "Site Web":
       return siteEstimate(answers, secondQuestionAnswer);
@@ -549,6 +718,10 @@ export function buildQuoteEstimate(
       return botEstimate("telegram", answers, secondQuestionAnswer);
     case "Aplicação Power Platform":
       return powerPlatformEstimate(answers, secondQuestionAnswer);
+    case "SaaS / Plataforma":
+      return saasEstimate(answers, secondQuestionAnswer);
+    case "White Label":
+      return whiteLabelEstimate(answers, secondQuestionAnswer);
     default:
       return {
         title: "Pre-orcamento",

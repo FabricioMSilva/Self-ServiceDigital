@@ -1,13 +1,10 @@
 import CheckoutPage from "@/app/pages/CheckoutPage";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import PageShell from "@/app/components/PageShell";
 
 export default function Checkout() {
   return (
-    <div className="bg-[#040b1f] text-white min-h-screen">
-      <Navbar />
+    <PageShell>
       <CheckoutPage />
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

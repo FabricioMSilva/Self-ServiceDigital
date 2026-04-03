@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-// Simulação de banco de dados em memória
+// Base temporária em memória para prototipagem da jornada de cadastro.
 let users: any[] = [
   {
     id: "1",
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hash da senha
+    // Protege a senha antes de devolver o usuário criado ao cliente.
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {

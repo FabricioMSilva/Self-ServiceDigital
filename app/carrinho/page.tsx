@@ -1,13 +1,10 @@
 import CartPage from "@/app/pages/CartPage";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import PageShell from "@/app/components/PageShell";
 
 export default function CarrinhoPage() {
   return (
-    <div className="bg-[#040b1f] text-white min-h-screen">
-      <Navbar />
+    <PageShell>
       <CartPage />
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

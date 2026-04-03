@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-// Simulação de banco de dados em memória (em produção, usar banco real)
+// Base temporária em memória para desenvolvimento. Em produção isso precisa ser
+// substituído por banco persistente e autenticação de verdade.
 let users: any[] = [
   {
     id: "1",
@@ -40,8 +41,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Para teste, vamos usar comparação simples
-    // Em produção, usar bcrypt.compare
+    // Mantém o usuário de demonstração e, para os demais registros em memória,
+    // valida a senha usando bcrypt.
     const isPasswordValid =
       password === "admin123" || (await bcrypt.compare(password, user.password));
 

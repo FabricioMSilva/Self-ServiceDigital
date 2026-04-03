@@ -28,6 +28,8 @@ const useCartStore = create<CartStore>()(
       },
 
       addItem: (item: CartItem) => {
+        // Consolida itens repetidos pelo mesmo id para o carrinho ficar limpo e
+        // previsível no resumo e no checkout.
         set((state) => {
           const existingItem = state.cart.items.find((i) => i.id === item.id);
 
@@ -100,6 +102,8 @@ const useCartStore = create<CartStore>()(
 
       calculateTotals: () => {
         const state = get();
+        // Recalcula todos os agregados financeiros a partir do estado atual do
+        // carrinho, mantendo subtotal, imposto, desconto e total sincronizados.
         const subtotal = state.cart.items.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0

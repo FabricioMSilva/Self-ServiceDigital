@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Simulação de banco de dados de pedidos
+// Mock de pedidos em memória para destravar checkout e painel administrativo.
 let orders: any[] = [];
 
 export async function POST(request: NextRequest) {

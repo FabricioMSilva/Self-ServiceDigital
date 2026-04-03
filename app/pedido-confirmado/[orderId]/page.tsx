@@ -1,6 +1,5 @@
 import OrderConfirmedPage from "@/app/pages/OrderConfirmedPage";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import PageShell from "@/app/components/PageShell";
 
 export default function PedidoConfirmado({
   params,
@@ -8,10 +7,8 @@ export default function PedidoConfirmado({
   params: { orderId: string };
 }) {
   return (
-    <div className="bg-[#040b1f] text-white min-h-screen">
-      <Navbar />
+    <PageShell>
       <OrderConfirmedPage params={params} />
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
