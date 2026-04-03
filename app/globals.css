@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #2c2c2c;
-  --foreground: #0a0a0a;
+  --background: #06070d;
+  --foreground: #f8fafc;
   --surface: #ffffff;
   --surface-muted: #c0c0c0;
   --graphite: #2c2c2c;
-  --primary: #7a3fff;
-  --primary-soft: #9b6bff;
+  --primary: #8b5cf6;
+  --primary-soft: #a78bfa;
   --header-offset: 6.7rem;
   --footer-offset: 5.6rem;
   --question-panel-height: 620px;
@@ -16,16 +16,21 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-roboto);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: #f5f5f5;
-  font-family: "Inter", "Arial", sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.16), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.14), transparent 28%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-roboto), system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;  
 }
 
 html {
@@ -35,8 +40,9 @@ html {
 
 * {
   box-sizing: border-box;
-  cursor: default;
-  caret-color: transparent;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: always; 
 }
 
 body,
@@ -56,12 +62,20 @@ a,
   user-select: none;
 }
 
-input,
-textarea,
-select {
-  cursor: text;
-  caret-color: auto;
-  user-select: text;
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .base-shell {
@@ -386,7 +400,7 @@ select {
 
 .catalog-question__option:hover .catalog-question__option-title,
 .catalog-question__option:hover .catalog-question__option-description {
-  color: #ffffff;
+  color:  #0a0a0a;
 }
 
 .catalog-question__option.is-selected {
@@ -415,7 +429,7 @@ select {
 }
 
 .catalog-question__option-description {
-  color: rgba(255, 255, 255, 0.82);
+  color:  #0a0a0a;
   font-size: 0.7rem;
   font-weight: 500;
   line-height: 1.2;

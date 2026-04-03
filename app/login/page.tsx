@@ -1,5 +1,5 @@
-import LoginPage from "@/app/pages/LoginPage";
+import LoginView from "@/app/_components/views/LoginPage";
 
-export default function Login() {
-  return <LoginPage />;
+export default function LoginPage() {
+  return <LoginView />;
 }

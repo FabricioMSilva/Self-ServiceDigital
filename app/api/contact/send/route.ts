@@ -1,11 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: "new" | "read" | "replied";
+  createdAt: Date;
+}
+
+interface ContactPayload {
+  name?: string;
+  email?: string;
+  phone?: string;
+  subject?: string;
+  message?: string;
+}
+
 // Mock de mensagens em memória para permitir testes do formulário e do admin.
-let messages: any[] = [];
+const messages: ContactMessage[] = [];
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, subject, message: msgText } = await request.json();
+    const { name, email, phone, subject, message: msgText }: ContactPayload = await request.json();
 
     if (!name || !email || !subject || !msgText) {
       return NextResponse.json(
@@ -23,7 +42,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const contact = {
+    const contact: ContactMessage = {
       id: `msg_${Math.random().toString(36).substr(2, 9)}`,
       name,
       email,
@@ -65,7 +84,7 @@ export async function GET() {
   try {
     // TODO: Adicionar autenticação antes de retornar mensagens
     return NextResponse.json(messages);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao buscar mensagens" },
       { status: 500 }

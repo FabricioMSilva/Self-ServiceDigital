@@ -1,10 +1,10 @@
-import CheckoutPage from "@/app/pages/CheckoutPage";
-import PageShell from "@/app/components/PageShell";
+import PageShell from "@/app/_components/templates/PageShell";
+import CheckoutView from "@/app/_components/views/CheckoutPage";
 
-export default function Checkout() {
+export default function CheckoutPage() {
   return (
     <PageShell>
-      <CheckoutPage />
+      <CheckoutView />
     </PageShell>
   );
 }

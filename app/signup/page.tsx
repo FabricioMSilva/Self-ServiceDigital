@@ -1,5 +1,5 @@
-import SignupPage from "@/app/pages/SignupPage";
+import SignupView from "@/app/_components/views/SignupPage";
 
-export default function Signup() {
-  return <SignupPage />;
+export default function SignupPage() {
+  return <SignupView />;
 }
